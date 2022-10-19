@@ -34,9 +34,17 @@ public LinearEquation(int x1, int y1, int x2, int y2){
     /* Calculates and returns the slope of the line between (x1, y1) and
        (x2, y2), rounded to the nearest hundredth */
     public double slope(){
+        //problem here, negatives: fix later//
         int run = x2-x1;
         int rise = y2-y1;
-        return roundedToHundredth(rise/run);
+        //if both rise and run are negative//
+        if ((rise<0)&&(run<0)){
+            run = Math.abs(run);
+            rise = Math.abs(rise);
+            return roundedToHundredth(rise/run);
+        } //IF TE SLOPE IS NEGATIVE//
+        if ((rise/run)<0) {
+        }
     }
 
     /* Returns a String that represents the linear equation of the line through points
@@ -64,16 +72,25 @@ public LinearEquation(int x1, int y1, int x2, int y2){
                subtraction!
      */
     public String equation(){
-        //STILL NEED TO FILTER OUT SLOPE SUCH THAT 2/1 = 2 ETC
         int run = x2-x1;
         int rise = y2-y1;
         //if the slope is negative
         if (slope() < 0){
-            String m = ("-" + rise + "/" + run);
-            return ("y = " + m + "x " + yIntercept());
+            //if the slope is a whole number
+            if (slope() % run == 0) {
+                return ("y = -" + rise/run + "x + " + yIntercept());
+            }else {
+                String m = ("-" + rise + "/" + run);
+                return ("y = " + m + "x + " + yIntercept());
+            }
         } else {
-            String m = ("" + rise + "/" + run);
-            return ("y = " + m + "x " + yIntercept());
+            if (slope() % run == 0){
+                return ("y = " + rise/run + "x + " + yIntercept());
+            }else{
+                String m = ("" + rise + "/" + run);
+                return ("y = " + m + "x + " + yIntercept());
+            }
+
         }
 
     }
@@ -106,8 +123,12 @@ public LinearEquation(int x1, int y1, int x2, int y2){
       equation(), slope(), yIntercept(), distance().
       */
     public String lineInfo(){
+    String points = ("The two points are: (" + x1 + ", " + y1 + ") " + "and " + "(" + x2 + ", " + y2 + ")");
+    String equation = ("The equation of the line between these points is: " + equation());
+    String slope = ("The slope of this line is: " + slope());
+    String yInt = ("The y-intercept of the line is: " + yIntercept());
+    String dist = ("The distance between the two points is: " + distance());
+        return (points + "\n" + equation + "\n" + slope + "\n" + yInt + "\n" + dist + "\n" );
 
-        return ("a");
     }
-
 }
