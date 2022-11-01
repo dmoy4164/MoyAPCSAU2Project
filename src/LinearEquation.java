@@ -1,5 +1,5 @@
 public class LinearEquation {
-
+//instance variables//
     private int x1;
     private int y1;
     private int x2;
@@ -9,6 +9,7 @@ public class LinearEquation {
    this precondition is not violated)
 
  */
+    //constructor//
 public LinearEquation(int x1, int y1, int x2, int y2){
     this.x1 = x1;
     this.y1 = y1;
@@ -18,33 +19,23 @@ public LinearEquation(int x1, int y1, int x2, int y2){
 
 /* Calculates and returns distance between (x1, y1) and (x2, y2), rounded to
    the nearest hundredth */
+    //does ^, finds the distance between the two points with pythagorean theorem//
     public double distance(){
-        int xDist = Math.abs(x1-x2);
-        int yDist = Math.abs(y1-y2);
-        double theDistance = Math.sqrt((Math.pow(xDist,2)+Math.pow(yDist,2)));
-        return roundedToHundredth(theDistance);
+        return roundedToHundredth(Math.sqrt(Math.pow(x2-x1,2)+Math.pow(y2-y1,2)));
     }
 
     /* Calculates and returns the y-intercept of the line between (x1, y1) and
        (x2, y2), rounded to the nearest hundredth */
+    //does ^, finds the y intercept//
     public double yIntercept(){
-        return y1-(slope()*x1);
+        return roundedToHundredth(y1-(slope()*x1));
     }
 
     /* Calculates and returns the slope of the line between (x1, y1) and
        (x2, y2), rounded to the nearest hundredth */
+    //does ^, obtains slope//
     public double slope(){
-        //problem here, negatives: fix later//
-        int run = x2-x1;
-        int rise = y2-y1;
-        //if both rise and run are negative//
-        if ((rise<0)&&(run<0)){
-            run = Math.abs(run);
-            rise = Math.abs(rise);
-            return roundedToHundredth(rise/run);
-        } //IF TE SLOPE IS NEGATIVE//
-        if ((rise/run)<0) {
-        }
+        return roundedToHundredth((double)(y2-y1)/(double)(x2-x1));
     }
 
     /* Returns a String that represents the linear equation of the line through points
@@ -71,34 +62,48 @@ public LinearEquation(int x1, int y1, int x2, int y2){
         HINT: Absolute value might be helpful for printing negative y-intercepts as
                subtraction!
      */
+    //does ^, creates equation//
     public String equation(){
-        int run = x2-x1;
-        int rise = y2-y1;
-        //if the slope is negative
-        if (slope() < 0){
-            //if the slope is a whole number
-            if (slope() % run == 0) {
-                return ("y = -" + rise/run + "x + " + yIntercept());
-            }else {
-                String m = ("-" + rise + "/" + run);
-                return ("y = " + m + "x + " + yIntercept());
-            }
-        } else {
-            if (slope() % run == 0){
-                return ("y = " + rise/run + "x + " + yIntercept());
-            }else{
-                String m = ("" + rise + "/" + run);
-                return ("y = " + m + "x + " + yIntercept());
-            }
+       double m = slope();
+       double b = yIntercept();
 
-        }
+       if (m == 0){
+           return ("y = " + y1);
+       }
 
+       String equat = ("y = ");
+       int rise = y2-y1;
+       int run = x2-x1;
+
+       String mCheck = ("");
+       if (m<0){
+           mCheck = ("-");
+       }
+       String mValue = ("");
+       if (Math.abs(m) != 1) {
+           if (((int) (m)) == m) {
+               mValue = ("" + (int) Math.abs(m));
+           } else {
+               mValue = ("" + Math.abs(rise) + "/" + Math.abs(run));
+           }
+       }
+        equat = (equat + mCheck + mValue + "x");
+
+       if (b!=0){
+           String bCheck = ("+");
+           if (b<0){
+               bCheck = ("-");
+           }
+           equat = (equat+" "+ bCheck + " " + Math.abs(b));
+       }
+       return equat;
     }
 
     /* Returns a String of the coordinate point on the line that has the given x value, with
        both x and y coordinates as decimals to the nearest hundredth, e.g (-5.0, 6.75) */
+    //does ^, obtains the new coordinates with same slope using new x from the user//
     public String coordinateForX(double xValue){
-        return (+ xValue + ", " + (slope()*xValue));
+        return ( xValue + ", " + (slope()*xValue));
     }
 
 
@@ -107,8 +112,9 @@ public LinearEquation(int x1, int y1, int x2, int y2){
 
         HINT:  the Math.round method can help with this!
      */
+    //does ^, rounds the number//
     public double roundedToHundredth(double toRound){
-        return Math.round(toRound * 100)/100;
+        return Math.round(toRound * 100)/100.0;
     }
 
     /* Returns a string that includes all information about the linear equation, each on
@@ -122,6 +128,7 @@ public LinearEquation(int x1, int y1, int x2, int y2){
       This method should call all other appropriate methods to get the info it needs:
       equation(), slope(), yIntercept(), distance().
       */
+    //does ^, returns all the information//
     public String lineInfo(){
     String points = ("The two points are: (" + x1 + ", " + y1 + ") " + "and " + "(" + x2 + ", " + y2 + ")");
     String equation = ("The equation of the line between these points is: " + equation());
